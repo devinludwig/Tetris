@@ -5,6 +5,10 @@ canvas {
   margin-top: 30px;
 }
 
+img {
+  display: none;
+}
+
 h1 {
   text-align: center;
 }
