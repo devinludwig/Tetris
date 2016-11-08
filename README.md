@@ -11,13 +11,13 @@ Tetris website: http://devinludwig.github.io/Tetris
     * Example Output:
 * Description
     * Example Input:
-    * Example Output
+    * Example Output:
 * Description
     * Example Input:
     * Example Output:
 * Description
     * Example Input:
-    * Example Output
+    * Example Output:
 
 ## Technologies Used
 
