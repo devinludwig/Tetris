@@ -12,6 +12,7 @@ canvas {
   border: 4px solid #94D404;
   border-radius: 5px;
 
+<<<<<<< HEAD
   /*display:inline-block;*/
 }
 .center{
@@ -20,6 +21,12 @@ canvas {
   margin: auto;
   margin-bottom: 20px;
 }
+=======
+img {
+  display: none;
+}
+
+>>>>>>> 3e533af5bab9f4353485aa7b15898f9d4e3f5501
 h1 {
   text-align: center;
 }
