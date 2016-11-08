@@ -5,11 +5,11 @@
     <link rel="stylesheet" href="css/styles.css" type="text/css">
     <script src="js/jquery-3.1.1.js"></script>
     <script src="js/scripts.js"></script>
-    <title>Tetris</title>
+    <title>Tetris Game</title>
   </head>
   <body>
     <div class="header">
-      <img src="img/logo.png">
+      <img class="logo" src="img/logo.png">
     </div>
     <div class="body">
       <div class="container">
@@ -19,30 +19,28 @@
           <div class="col-md-11">
             <div class="row">
               <div class="col-md-6">
-                <button type="button" class="btn btn-lg center" name="button"> Start Game</button>
-                <canvas id="myCanvas" width="500" height="1000"></canvas>
+                <button class="btn btn-lg"> Start Game</button>
+                <canvas width="500" height="1000"></canvas>
               </div>
               <div class="col-md-6">
-                <div class="direction-section">
-                  <div class="directions">
-                    <h2>Directions</h2>
-                    <ol>
-                      <li>Move the tetrominoes left and right with the arrow keys or buttons. Try to move the tetrominoes to get them to move together.</li>
-                      <li>Understand the different tetrominoes.
-                        <ul>
-                          <li>I-blocks are useful for getting 'Tetris', that is competing four lines at once.</li>
-                          <li>O-blocks for filling large gaps.</li>
-                          <li>L-blocks for filling medium-sized holes.</li>
-                          <li>J-blocks face the opposite direction as L-blocks.</li>
-                          <li>S-blocks for filling small holes.</li>
-                          <li>Z-blocks face the opposite direction as S-blocks.</li>
-                          <li>T-blocks are also for filling small holes.</li>
-                        </ul>
-                      </li>
-                      <li>Use the action button to rotate the tetrominoes to fit holes. These can range from the A button, X button, space bar, enter key or even something else, depending on your particular Tetris game.</li>
-                      <li>Complete lines to gain points and raise the level. The more lines completed at once, the more points gained. Completing the maximum number of lines at once, four, is known as a 'Tetris' and can only be pulled off with straight, long rectangle tetrominoes.</li>
-                    </ol>
-                  </div>
+                <div class="directions">
+                  <h1>Directions</h1>
+                  <ol>
+                    <li>Move the tetrominoes left and right with the arrow keys or buttons. Try to move the tetrominoes to get them to move together.</li>
+                    <li>Understand the different tetrominoes.
+                      <ul>
+                        <li>I-blocks are useful for getting 'Tetris', that is competing four lines at once.</li>
+                        <li>O-blocks for filling large gaps.</li>
+                        <li>L-blocks for filling medium-sized holes.</li>
+                        <li>J-blocks face the opposite direction as L-blocks.</li>
+                        <li>S-blocks for filling small holes.</li>
+                        <li>Z-blocks face the opposite direction as S-blocks.</li>
+                        <li>T-blocks are also for filling small holes.</li>
+                      </ul>
+                    </li>
+                    <li>Use the action button to rotate the tetrominoes to fit holes. These can range from the A button, X button, space bar, enter key or even something else, depending on your particular Tetris game.</li>
+                    <li>Complete lines to gain points and raise the level. The more lines completed at once, the more points gained. Completing the maximum number of lines at once, four, is known as a 'Tetris' and can only be pulled off with straight, long rectangle tetrominoes.</li>
+                  </ol>
                 </div>
               </div>
             </div>
