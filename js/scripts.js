@@ -35,12 +35,13 @@ function Cell (xCoordinate, yCoordinate, status) {
   this.status = false;
 };
 
-function Tetromino (cellArray, rightSide, leftSide, color) {
+function Tetromino (cellArray, rightSide, leftSide, color, id) {
   this.cellArray = cellArray;
   this.rightSide = rightSide;
   this.leftSide = leftSide;
   this.xCoordinate;
   this.yCoordinate;
+  this.id = id;
   this.height;
   this.color = color;
 };
@@ -100,6 +101,7 @@ function newGame() {
     cells.push(row);
   };
   board = new Board (cells);
+
  };
 
 function getRandomInt(min, max) {
@@ -107,8 +109,13 @@ function getRandomInt(min, max) {
 }
 
 $(document).ready(function() {
-  newGame();
-  dropRandomTetromino();
+  $("#start-game").click(function (){
+    newGame();
+    dropRandomTetromino();
+  });
+  // newGame();
+  // dropRandomTetromino();
+
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   var img = document.getElementById("image");
@@ -135,6 +142,7 @@ $(document).ready(function() {
       dy = dy * 4;
     }
     if (rotatePressed && counter % 10 == 0) {
+      //rotate this tetromino this tied to the id
         tetromino.translateBack(tetromino.rotateLeft(tetromino.translate()));
     }
   };
@@ -163,7 +171,7 @@ $(document).ready(function() {
         }
       }
     };
-
+var id =0;
   function dropRandomTetromino() {
     random = getRandomInt(0,6);
     pick = tetrominos[random];
@@ -182,7 +190,8 @@ $(document).ready(function() {
     }else if(pick === zShape) {
       var color = "#F00000";
     };
-    tetromino = new Tetromino(pick, pick[3][0], pick[0][0], color);
+    tetromino = new Tetromino(pick, pick[3][0], pick[0][0], color, id);
+    id++;
     drop = setInterval(draw, 20);
     console.log(tetromino)
   };

@@ -1,41 +1,34 @@
-# _Tetris_
+# Tetris Game
 
-#### _A Page to Play Tetris, 11-8-2016_
-
-#### By _**Devin Ludwig, Jared Alford, Claire Sial, Rafael Perez**_
-
-## Description
-
-_This page will display a tetris board and start new games at the click of a button._
-
-## Specifications
-
-* _It will display a game board in the dimension 2:1_
-* _It will generate random shapes of 7 types._
-* _It will drop shapes from the top to the bottom of the board._
-* _It will move the shapes left and right with the arrow keys._
-* _It will drop the shapes faster when the down arrow key is pressed._
-* _It will rotate the dropping shape when the space bar is pressed._
-* _It will stop a shape and fix it in place when any bottom side touches the top side of a fixed shape._
-* _It will drop a new shape whenever a dropping shape becomes fixed in place._
+#### A website where a user can play a puzzle game in which falling tetrominoes must be manipulated to form complete lines, which are then cleared from the grid. 11/7/16
 
 ## Setup/Installation Requirements
 
-* _Clone git repository_
-* _Navigate to index.html in the "tracks" directory and open in your browser of choice_
-* _You may also view it on Github Pages at "https://devinludwig.github.io/Pizza-Shop/"_
+* Clone this repository.
+* Navigate to index.html in the "Tetris" directory and open in your browser of choice.
+* You may also view it on Github: https://devinludwig.github.io/Tetris/
 
+## Specifications
 
-## Support and contact details
-
-_If you have any issues with this application please don't hesitate to contact me at devinludwig@hotyahoos.com. You are welcome to contribute to the code and please let me know if you do!_
+* It will display a game board in the dimension 2:1.
+* It will generate random shapes of 7 types.
+* It will drop shapes from the top to the bottom of the board.
+* It will move the shapes left and right with the arrow keys.
+* It will drop the shapes faster when the down arrow key is pressed.
+* It will rotate the dropping shape when the space bar is pressed.
+* It will stop a shape and fix it in place when any bottom side touches the top side of a fixed shape.
+* It will drop a new shape whenever a dropping shape becomes fixed in place.
 
 ## Technologies Used
 
-_This was made with Javascript, utilizing bootstrap for some of the styling and jQuery for the interactivity._
+* HTML
+* CSS
+* JavaScript
+* Bootstrap
+* jQuery
 
-### License
+### Legal
 
-*This project is licensed under the GPL license.*
+© 2016 Devin Ludwig, Claire Sial, Rafael Perez, Jared Alford
 
-Copyright (c) 2016 **_Devin Arthur Ludwig, Jared Alford, Claire Sial, Rafael Perez_**
+This software is licensed under the GPL license.
