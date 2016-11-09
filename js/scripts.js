@@ -1,12 +1,9 @@
 var x = 0;
 var y = 0;
 var counter = 0;
-var dy = 2;
 var cells = [];
 var fixedCoordinates = [];
 var fixedTetrominos = [];
-var shapeWidth = 150;
-var shapeHeight = 100;
 var rightPressed = false;
 var leftPressed = false;
 var downPressed = false;
@@ -128,15 +125,13 @@ $(document).ready(function() {
       dy = dy * 4;
     }
     if (rotatePressed && counter % 12 == 0) {
-      if (fixedCoordinates.indexOf([tetromino.xCoordinate, tetromino.yCoordinate]) === -1) {
         tetromino.translateBack(tetromino.rotateLeft(tetromino.translate()));
-      };
     };
   };
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    dy = 2;
+    dy = 1;
     fixShape();
     drawShape();
     tetromino.xCoordinate = x;
@@ -151,13 +146,43 @@ $(document).ready(function() {
           tetromino.yCoordinate = y;
           fixedCoordinates.push([tetromino.xCoordinate,tetromino.yCoordinate]);
           fixedTetrominos.push(tetromino);
-          // console.log(fixedCoordinates)
           dropRandomTetromino();
           x = 0;
           y = 0;
+          console.log(fixedTetrominos)
         }
+      if (fixedTetrominos.length > 0) {
+        for (j=0; j<fixedTetrominos.length; j++) {
+          for (k=0; k<4; k++) {
+         if (tetromino.cellArray[i][1]*50 + tetromino.yCoordinate > fixedTetrominos[j].yCoordinate + (fixedTetrominos[j].cellArray[k][1]-1)*50  && (tetromino.cellArray[i][0]*50 + tetromino.xCoordinate === fixedTetrominos[j].xCoordinate + fixedTetrominos[j].cellArray[k][0]*50)) {
+           clearInterval(drop);
+           y = Math.round(y/50)*50;
+           tetromino.yCoordinate = y;
+           fixedCoordinates.push([tetromino.xCoordinate,tetromino.yCoordinate]);
+           fixedTetrominos.push(tetromino);
+           dropRandomTetromino();
+           x = 0;
+           y = 0;
+          }
+         }
+        }
+       }
       }
     };
+
+    function fixShape() {
+      for (var i = 0; i < fixedCoordinates.length; i ++) {
+        for (j=0; j <4; j++) {
+          ctx.beginPath();
+          ctx.fillStyle = fixedTetrominos[i].color;
+          ctx.strokeStyle = "black";
+          ctx.stroke();
+          ctx.fillRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
+          ctx.strokeRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
+          ctx.closePath()
+        }
+      }
+    }
 
   function dropRandomTetromino() {
     var iShape = [[4,1],[5,1],[6,1],[7,1]]
@@ -189,20 +214,6 @@ $(document).ready(function() {
     drop = setInterval(draw, 20);
     console.log(tetromino)
   };
-
-  function fixShape() {
-    for (var i = 0; i < fixedCoordinates.length; i ++) {
-      for (j=0; j <4; j++) {
-      ctx.beginPath();
-      ctx.fillStyle = fixedTetrominos[i].color;
-      ctx.strokeStyle = "black";
-      ctx.stroke();
-      ctx.fillRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
-      ctx.strokeRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
-      ctx.closePath()
-      }
-    }
-  }
 
 
   document.addEventListener("keydown", keyDownHandler, false);
