@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Bungee|Iceland|Nova+Square|Righteous|Squada+One');
+@import url('https://fonts.googleapis.com/css?family=Maven+Pro');
 
 body {
   font-family: 'Iceland', cursive;
@@ -19,7 +20,9 @@ h1 {
 }
 
 li {
-  margin-bottom: 3px;
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 12pt;
+  margin-bottom: 5px;
 }
 
 img {
@@ -62,7 +65,18 @@ img.logo {
   margin-bottom: 25px;
 }
 
-.btn:hover{
+.btn:hover {
 	background-color: #94D404;
   color: #FFFFFF;
+}
+
+.footer {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 10pt;
+  text-align: center;
+  background-color: #11509D;
+  color: #FFFFFF;
+  padding-top: 30px;
+  padding-bottom: 15px;
+  height: 100%;
 }
