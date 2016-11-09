@@ -56,6 +56,7 @@ Tetromino.prototype.translate = function() {
     var yIndex = this.cellArray[i][1];
     grid[yIndex][xIndex] = 1;
   };
+  console.log(grid)
   return grid;
 };
 
@@ -66,16 +67,28 @@ Tetromino.prototype.rotateLeft  = function(grid) {
   [grid[0][1], grid[1][1], grid[2][1], grid[3][1]],
   [grid[0][0], grid[1][0], grid[2][0], grid[3][0]]
   ];
-  for (i=0;i<4;i++) {
-    for (j=0;j<4;j++) {
-      if (newGrid[i][j] === 1) {
-      this.cellArray[i][0] = 4 + j;
-      this.cellArray[i][1] = i;
+  console.log(newGrid)
+};
+
+Tetromino.prototype.translateBack = function(grid) {
+  var count = 0;
+  var xValues = [];
+  for (var row=0; row<4; row++) {
+    for (var column=0; column<4; column++) {
+      if (newGrid[row][column] === 1) {
+        console.log(row + "," + column);
+        this.cellArray[count][0] = 4 + column;
+        this.cellArray[count][1] = row;
+        xValues.push(this.cellArray[count][0])
+        count ++;
       };
     };
   };
-  console.log(newGrid);
+  this.rightSide = Math.max(...xValues);
+  this.leftSide = Math.min(...xValues);
+  console.log(this.cellArray);
 };
+
 
 function newGame() {
   for (var i=1; i<21; i ++) {
@@ -87,13 +100,11 @@ function newGame() {
     cells.push(row);
   };
   board = new Board (cells);
-  console.log(board);
-};
+ };
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
-
 
 $(document).ready(function() {
   newGame();
@@ -102,29 +113,6 @@ $(document).ready(function() {
   var ctx = canvas.getContext("2d");
   var img = document.getElementById("image");
   var drop = setInterval(draw, 20);
-
-  function dropRandomTetromino() {
-    random = getRandomInt(0,6);
-    pick = tetrominos[random];
-    if (pick === iShape) {
-      var color = "#00f0f0";
-    } else if (pick === jShape) {
-      var color = "#0000f0";
-    } else if (pick === lShape) {
-      var color = "#F0A000";
-    } else if (pick === oShape) {
-      var color = "#F0F000";
-    }else if(pick === sShape) {
-      var color = "#00F000";
-    }else if(pick === tShape) {
-      var color = "#A000F0";
-    }else if(pick === zShape) {
-      var color = "#F00000";
-    };
-    tetromino = new Tetromino(pick, pick[3][0], pick[0][0], color);
-    drop = setInterval(draw, 20);
-    console.log(tetromino)
-  };
 
   function drawShape() {
     ctx.beginPath();
@@ -138,31 +126,18 @@ $(document).ready(function() {
     ctx.stroke();
     ctx.closePath();
     }
-    if(rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 4 == 0) {
+    if(rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 10 == 0) {
         x += 50;
-    } else if(leftPressed && x + 50*(tetromino.leftSide - 1) > 0 && counter % 4 == 0) {
+    } else if(leftPressed && x + 50*(tetromino.leftSide - 1) > 0 && counter % 10 == 0) {
         x -= 50;
       }
     if (downPressed) {
       dy = dy * 4;
     }
-    if (rotatePressed && counter % 4 == 0) {
-        tetromino.rotateLeft(tetromino.translate());
+    if (rotatePressed && counter % 10 == 0) {
+        tetromino.translateBack(tetromino.rotateLeft(tetromino.translate()));
     }
   };
-
-  function fixShape() {
-    for (var i = 0; i < fixedCoordinates.length; i ++) {
-      for (j=0; j <4; j++) {
-      ctx.fillStyle = fixedTetrominos[i].color;
-      ctx.strokeStyle = "black";
-      ctx.stroke();
-      ctx.fillRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
-      ctx.strokeRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
-      ctx.closePath()
-      }
-    }
-  }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -188,6 +163,43 @@ $(document).ready(function() {
         }
       }
     };
+
+  function dropRandomTetromino() {
+    random = getRandomInt(0,6);
+    pick = tetrominos[random];
+    if (pick === iShape) {
+      var color = "#00f0f0";
+    } else if (pick === jShape) {
+      var color = "#0000f0";
+    } else if (pick === lShape) {
+      var color = "#F0A000";
+    } else if (pick === oShape) {
+      var color = "#F0F000";
+    }else if(pick === sShape) {
+      var color = "#00F000";
+    }else if(pick === tShape) {
+      var color = "#A000F0";
+    }else if(pick === zShape) {
+      var color = "#F00000";
+    };
+    tetromino = new Tetromino(pick, pick[3][0], pick[0][0], color);
+    drop = setInterval(draw, 20);
+    console.log(tetromino)
+  };
+
+  function fixShape() {
+    for (var i = 0; i < fixedCoordinates.length; i ++) {
+      for (j=0; j <4; j++) {
+      ctx.beginPath();
+      ctx.fillStyle = fixedTetrominos[i].color;
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+      ctx.fillRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
+      ctx.strokeRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
+      ctx.closePath()
+      }
+    }
+  }
 
 
   document.addEventListener("keydown", keyDownHandler, false);
