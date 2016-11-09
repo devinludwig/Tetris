@@ -97,19 +97,19 @@ function getRandomInt(min, max) {
 
 $(document).ready(function() {
 
-  //  $("#start-game").click(function (){
-  //
-  //
-  //
-  // //  clearInterval(drop);
-  //
-  //
-  //
-  // });
+   $("#start-game").click(function (){
+
+
+
+  //  clearInterval(drop);
 
   newGame();
 
   dropRandomTetromino();
+
+  });
+
+
   var drop = setInterval(draw, 20);
   clearInterval(drop);
   var canvas = document.getElementById("myCanvas");
@@ -228,8 +228,11 @@ $(document).ready(function() {
   }
 
 
-  document.addEventListener("keydown", keyDownHandler, false);
-  document.addEventListener("keyup", keyUpHandler, false);
+  window.addEventListener("keydown", keyDownHandler, false);
+  window.addEventListener("keyup", keyUpHandler, false);
+
+
+
   function keyDownHandler(e) {
       if(e.keyCode == 39) {
           rightPressed = true;
