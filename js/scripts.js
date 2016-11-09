@@ -11,19 +11,8 @@ var rightPressed = false;
 var leftPressed = false;
 var downPressed = false;
 var rotatePressed = false;
-var iShape = [[4,1],[5,1],[6,1],[7,1]]
-var lShape = [[5,1],[6,1],[5,2],[7,1]]
-var jShape = [[5,1],[6,1],[7,1],[7,2]]
-var sShape = [[5,2],[6,2],[6,1],[7,1]]
-var oShape = [[5,1],[5,2],[6,1],[6,2]]
-var zShape = [[5,1],[6,1],[6,2],[7,2]]
-var tShape = [[5,1],[6,2],[6,1],[7,1]]
-var tetrominos = [iShape,lShape,jShape,sShape,oShape,zShape,tShape];
-var random = getRandomInt(0,6);
-var pick = tetrominos[random];
-var tetromino;
-
-
+// var random = getRandomInt(0,6);
+// var pick = tetrominos[random];
 
 function Board (cells) {
   this.cells = cells;
@@ -56,7 +45,7 @@ Tetromino.prototype.translate = function() {
     var yIndex = this.cellArray[i][1];
     grid[yIndex][xIndex] = 1;
   };
-  console.log(grid)
+  // console.log(grid)
   return grid;
 };
 
@@ -67,7 +56,7 @@ Tetromino.prototype.rotateLeft  = function(grid) {
   [grid[0][1], grid[1][1], grid[2][1], grid[3][1]],
   [grid[0][0], grid[1][0], grid[2][0], grid[3][0]]
   ];
-  console.log(newGrid)
+  // console.log(newGrid)
 };
 
 Tetromino.prototype.translateBack = function(grid) {
@@ -76,7 +65,7 @@ Tetromino.prototype.translateBack = function(grid) {
   for (var row=0; row<4; row++) {
     for (var column=0; column<4; column++) {
       if (newGrid[row][column] === 1) {
-        console.log(row + "," + column);
+        // console.log(row + "," + column);
         this.cellArray[count][0] = 4 + column;
         this.cellArray[count][1] = row;
         xValues.push(this.cellArray[count][0])
@@ -86,7 +75,6 @@ Tetromino.prototype.translateBack = function(grid) {
   };
   this.rightSide = Math.max(...xValues);
   this.leftSide = Math.min(...xValues);
-  console.log(this.cellArray);
 };
 
 
@@ -116,6 +104,11 @@ $(document).ready(function() {
 
   function drawShape() {
     ctx.beginPath();
+    if (x + 50*(tetromino.leftSide - 1) < 0) {
+      x= -1*(50*(tetromino.leftSide - 1));
+    } else if (x + 50*(tetromino.rightSide) > canvas.width) {
+      x= canvas.width - (50*(tetromino.rightSide));
+    }
     for (i=0;i<4;i++) {
       xCoordinate= x + 50*(tetromino.cellArray[i][0] -1);
       yCoordinate= y + 50*(tetromino.cellArray[i][1] -1);
@@ -134,9 +127,11 @@ $(document).ready(function() {
     if (downPressed) {
       dy = dy * 4;
     }
-    if (rotatePressed && counter % 10 == 0) {
+    if (rotatePressed && counter % 12 == 0) {
+      if (fixedCoordinates.indexOf([tetromino.xCoordinate, tetromino.yCoordinate]) === -1) {
         tetromino.translateBack(tetromino.rotateLeft(tetromino.translate()));
-    }
+      };
+    };
   };
 
   function draw() {
@@ -165,8 +160,16 @@ $(document).ready(function() {
     };
 
   function dropRandomTetromino() {
-    random = getRandomInt(0,6);
-    pick = tetrominos[random];
+    var iShape = [[4,1],[5,1],[6,1],[7,1]]
+    var lShape = [[5,1],[6,1],[5,2],[7,1]]
+    var jShape = [[5,1],[6,1],[7,1],[7,2]]
+    var sShape = [[5,2],[6,2],[6,1],[7,1]]
+    var oShape = [[5,1],[5,2],[6,1],[6,2]]
+    var zShape = [[5,1],[6,1],[6,2],[7,2]]
+    var tShape = [[5,1],[6,2],[6,1],[7,1]]
+    var tetrominos = [iShape,lShape,jShape,sShape,oShape,zShape,tShape];
+    var random = getRandomInt(0,6);
+    var pick = tetrominos[random];
     if (pick === iShape) {
       var color = "#00f0f0";
     } else if (pick === jShape) {
@@ -234,5 +237,5 @@ $(document).ready(function() {
           rotatePressed = false;
           console.log(rotatePressed);
       }
-       };
+   };
 });
