@@ -124,17 +124,17 @@ $(document).ready(function() {
       ctx.closePath();
     }
 
-    if (rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 10 == 0 && board.cells[Math.floor(yCoordinate/50)][xCoordinate/50 + 1].status === false && board.cells[Math.ceil(yCoordinate/50)][xCoordinate/50 + 1].status ===false) {
+    if (rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 5 == 0 && board.cells[Math.floor(yCoordinate/50)][xCoordinate/50 + 1].status === false && board.cells[Math.ceil(yCoordinate/50)][xCoordinate/50 + 1].status ===false) {
       console.log(yCoordinate)
       console.log(xCoordinate)
       x += 50;
-    } else if (leftPressed && x + 50*(tetromino.leftSide - 1) > 0 && counter % 10 == 0 && board.cells[Math.floor(yCoordinate/50)][xCoordinate/50 - 1].status === false && board.cells[Math.ceil(yCoordinate/50)][xCoordinate/50 - 1].status ===false) {
+    } else if (leftPressed && x + 50*(tetromino.leftSide - 1) > 0 && counter % 5 == 0 && board.cells[Math.floor(yCoordinate/50)][xCoordinate/50 - 1].status === false && board.cells[Math.ceil(yCoordinate/50)][xCoordinate/50 - 1].status ===false) {
       x -= 50;
     };
     if (downPressed) {
-      dy = dy * 4;
+      dy = dy * 5;
     }
-    if (rotatePressed && counter % 10 == 0) {
+    if (rotatePressed && counter % 8 == 0) {
         tetromino.translateBack(tetromino.rotateLeft(tetromino.translate()));
     };
   };
