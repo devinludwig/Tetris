@@ -123,11 +123,14 @@ $(document).ready(function() {
       ctx.stroke();
       ctx.closePath();
     }
-    if(rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 5 == 0) {
-        x += 50;
-    } else if(leftPressed && x + 50*(tetromino.leftSide - 1) > 0 && counter % 5 == 0) {
-        x -= 50;
-      }
+
+    if (rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 10 == 0 && board.cells[Math.floor(yCoordinate/50)][xCoordinate/50 + 1].status === false && board.cells[Math.ceil(yCoordinate/50)][xCoordinate/50 + 1].status ===false) {
+      console.log(yCoordinate)
+      console.log(xCoordinate)
+      x += 50;
+    } else if (leftPressed && x + 50*(tetromino.leftSide - 1) > 0 && counter % 10 == 0 && board.cells[Math.floor(yCoordinate/50)][xCoordinate/50 - 1].status === false && board.cells[Math.ceil(yCoordinate/50)][xCoordinate/50 - 1].status ===false) {
+      x -= 50;
+    };
     if (downPressed) {
       dy = dy * 4;
     }
@@ -144,7 +147,6 @@ $(document).ready(function() {
     tetromino.xCoordinate = x;
     tetromino.yCoordinate = y;
     // tetromino.height =
-    y += dy;
     counter += 1;
     for (i=0;i<4;i++) {
       if (y + dy > canvas.height- 50*(tetromino.cellArray[i][1]))
@@ -152,12 +154,14 @@ $(document).ready(function() {
           clearInterval(drop);
           y = Math.round(y/50)*50;
           tetromino.yCoordinate = y;
+          for (var index=0; index<4; index++) {
+          board.cells[tetromino.cellArray[index][1]+tetromino.yCoordinate/50 - 1][tetromino.cellArray[index][0]+tetromino.xCoordinate/50 -1].status = true;
+          }
           fixedCoordinates.push([tetromino.xCoordinate,tetromino.yCoordinate]);
           fixedTetrominos.push(tetromino);
           dropRandomTetromino();
           x = 0;
           y = 0;
-          console.log(fixedTetrominos)
         }
       if (fixedTetrominos.length > 0) {
         for (j=0; j<fixedTetrominos.length; j++) {
@@ -166,6 +170,10 @@ $(document).ready(function() {
            clearInterval(drop);
            y = Math.round(y/50)*50;
            tetromino.yCoordinate = y;
+           for (var index=0; index<4; index++) {
+           board.cells[tetromino.cellArray[index][1]+tetromino.yCoordinate/50 -1][tetromino.cellArray[index][0]+tetromino.xCoordinate/50 -1].status = true;
+          }
+           console.log(board)
            fixedCoordinates.push([tetromino.xCoordinate,tetromino.yCoordinate]);
            fixedTetrominos.push(tetromino);
            dropRandomTetromino();
@@ -176,19 +184,34 @@ $(document).ready(function() {
         }
        }
       }
+      y += dy;
     };
 
     function fixShape() {
       for (var i = 0; i < fixedCoordinates.length; i ++) {
-        for (j=0; j <4; j++) {
+        for (var j=0; j <4; j++) {
           ctx.beginPath();
           ctx.fillStyle = fixedTetrominos[i].color;
           ctx.strokeStyle = "black";
           ctx.stroke();
           ctx.fillRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
           ctx.strokeRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
-          ctx.closePath()
+          ctx.closePath();
         }
+        // for (var index=0; index<20; index ++) {
+        //   if (board.cells[index].every(cell => cell.status === true) === true) {
+        //     console.log("full row")
+        //     for(var j=1; j <=index; j ++) {
+        //       board.cells[j] = board.cells[j - 1];
+              // board.cells[0] = board.cells[j - 1];
+              // for (var k=0; k < 10; k ++) {
+              //   if (board.cells[j][k] = true) {
+              //     fixedTetrominos[]
+              //   }
+              // }
+            // }
+          // }
+        // }
       }
     }
 
@@ -222,7 +245,6 @@ $(document).ready(function() {
     drop = setInterval(draw, 20);
     console.log(tetromino)
   };
-
 
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
