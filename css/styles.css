@@ -52,7 +52,7 @@ img.logo {
 
 .directions {
   width: 450px;
-  margin-top: 90px;
+  margin-top: 120px;
   margin-left: 30px;
 }
 
@@ -61,13 +61,45 @@ img.logo {
   background-color: #AF54F1;
   color: #FFFFFF;
   display: block;
+  width: 185px;
   margin: auto;
   margin-bottom: 25px;
 }
 
 .btn:hover {
-	background-color: #94D404;
   color: #FFFFFF;
+}
+
+.btn-success {
+  box-shadow:0 0 0 1px #AD65EF inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #8A45BF, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+  background-color:#AD56EF;
+}
+
+.btn-success:hover {
+  background-color: #7E3EAD;
+}
+
+.btn:active {
+  background-color: #7E3EAD !important;
+}
+
+.btn3d {
+  transition:all .08s linear;
+  position:relative;
+  outline:medium none;
+  -moz-outline-style:none;
+  border:0px;
+  margin-right:10px;
+  margin-top:15px;
+}
+
+.btn3d:focus {
+  outline:medium none;
+  -moz-outline-style:none;
+}
+
+.btn3d:active {
+  top:9px;
 }
 
 .footer {
@@ -79,4 +111,18 @@ img.logo {
   padding-top: 30px;
   padding-bottom: 15px;
   height: 100%;
+}
+
+#start-game {
+  color: #fff;
+  display: block;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 35px;
+}
+
+a:active {
+  box-shadow: 0px 3px 0px rgba(65,32,89,1), 0px 3px 6px rgba(0,0,0,.7);
+  position: relative;
+  top: 6px;
 }

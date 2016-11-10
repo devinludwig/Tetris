@@ -85,7 +85,6 @@ function newGame() {
     cells.push(row);
   };
   board = new Board (cells);
-
  };
 
 function getRandomInt(min, max) {
@@ -93,28 +92,15 @@ function getRandomInt(min, max) {
 }
 
 $(document).ready(function() {
-
-   $("#start-game").click(function (){
-
-
-
-  //  clearInterval(drop);
-
-  newGame();
-
-  dropRandomTetromino();
-
+  $("#start-game").click(function (){
+    newGame();
+    dropRandomTetromino();
   });
 
-
-  var drop = setInterval(draw, 20);
-  clearInterval(drop);
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   var img = document.getElementById("image");
-
-
-
+  var drop = setInterval(draw, 20);
 
   function drawShape() {
     ctx.beginPath();
@@ -126,12 +112,12 @@ $(document).ready(function() {
     for (i=0;i<4;i++) {
       xCoordinate= x + 50*(tetromino.cellArray[i][0] -1);
       yCoordinate= y + 50*(tetromino.cellArray[i][1] -1);
-    ctx.rect(xCoordinate,yCoordinate,50,50);
-    ctx.fillStyle = tetromino.color;
-    ctx.strokeStyle = "black";
-    ctx.fill();
-    ctx.stroke();
-    ctx.closePath();
+      ctx.rect(xCoordinate,yCoordinate,50,50);
+      ctx.fillStyle = tetromino.color;
+      ctx.strokeStyle = "black";
+      ctx.fill();
+      ctx.stroke();
+      ctx.closePath();
     }
     if(rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 10 == 0) {
         x += 50;
@@ -141,12 +127,7 @@ $(document).ready(function() {
     if (downPressed) {
       dy = dy * 4;
     }
-
     if (rotatePressed && counter % 12 == 0) {
-
-      if (fixedCoordinates.indexOf([tetromino.xCoordinate, tetromino.yCoordinate]) === -1) {
-
-
         tetromino.translateBack(tetromino.rotateLeft(tetromino.translate()));
     };
   };
@@ -162,7 +143,8 @@ $(document).ready(function() {
     y += dy;
     counter += 1;
     for (i=0;i<4;i++) {
-      if (y + dy > canvas.height- 50*(tetromino.cellArray[i][1])) {
+      if (y + dy > canvas.height- 50*(tetromino.cellArray[i][1]))
+      {
           clearInterval(drop);
           y = Math.round(y/50)*50;
           tetromino.yCoordinate = y;
@@ -218,51 +200,28 @@ $(document).ready(function() {
     var random = getRandomInt(0,6);
     var pick = tetrominos[random];
     if (pick === iShape) {
-      var color = "#C6361C";
+      var color = "#00f0f0";
     } else if (pick === jShape) {
-      var color = "#F0A900";
+      var color = "#0000f0";
     } else if (pick === lShape) {
-      var color = "#FDF226";
+      var color = "#F0A000";
     } else if (pick === oShape) {
-      var color = "#94D404";
+      var color = "#F0F000";
     }else if(pick === sShape) {
-      var color = "#5BCFF4";
+      var color = "#00F000";
     }else if(pick === tShape) {
-      var color = "#1255A4";
+      var color = "#A000F0";
     }else if(pick === zShape) {
-      var color = "#AD56EF";
+      var color = "#F00000";
     };
-      tetromino = new Tetromino(pick, pick[3][0], pick[0][0], color);
-
+    tetromino = new Tetromino(pick, pick[3][0], pick[0][0], color);
     drop = setInterval(draw, 20);
-
     console.log(tetromino)
   };
 
 
-
-
-  function fixShape() {
-    for (var i = 0; i < fixedCoordinates.length; i ++) {
-      for (j=0; j <4; j++) {
-      ctx.beginPath();
-      ctx.fillStyle = fixedTetrominos[i].color;
-      ctx.strokeStyle = "black";
-      ctx.stroke();
-      ctx.fillRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
-      ctx.strokeRect(fixedCoordinates[i][0]+ 50*(fixedTetrominos[i].cellArray[j][0] -1),fixedCoordinates[i][1] + 50*(fixedTetrominos[i].cellArray[j][1] -1),50,50);
-      ctx.closePath()
-      }
-    }
-  }
-
-
-
-  window.addEventListener("keydown", keyDownHandler, false);
-  window.addEventListener("keyup", keyUpHandler, false);
-
-
-
+  document.addEventListener("keydown", keyDownHandler, false);
+  document.addEventListener("keyup", keyUpHandler, false);
   function keyDownHandler(e) {
       if(e.keyCode == 39) {
           rightPressed = true;
@@ -294,5 +253,4 @@ $(document).ready(function() {
           console.log(rotatePressed);
       }
    };
-
 });
