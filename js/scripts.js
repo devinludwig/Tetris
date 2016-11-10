@@ -92,8 +92,11 @@ function getRandomInt(min, max) {
 }
 
 $(document).ready(function() {
-  newGame();
-  dropRandomTetromino();
+  $("#start-game").click(function (){
+    newGame();
+    dropRandomTetromino();
+  });
+
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   var img = document.getElementById("image");
@@ -109,12 +112,12 @@ $(document).ready(function() {
     for (i=0;i<4;i++) {
       xCoordinate= x + 50*(tetromino.cellArray[i][0] -1);
       yCoordinate= y + 50*(tetromino.cellArray[i][1] -1);
-    ctx.rect(xCoordinate,yCoordinate,50,50);
-    ctx.fillStyle = tetromino.color;
-    ctx.strokeStyle = "black";
-    ctx.fill();
-    ctx.stroke();
-    ctx.closePath();
+      ctx.rect(xCoordinate,yCoordinate,50,50);
+      ctx.fillStyle = tetromino.color;
+      ctx.strokeStyle = "black";
+      ctx.fill();
+      ctx.stroke();
+      ctx.closePath();
     }
     if (rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 10 == 0 && board.cells[Math.floor(yCoordinate/50)][xCoordinate/50 + 1].status === false && board.cells[Math.ceil(yCoordinate/50)][xCoordinate/50 + 1].status ===false) {
       console.log(yCoordinate)
@@ -141,8 +144,8 @@ $(document).ready(function() {
     // tetromino.height =
     counter += 1;
     for (i=0;i<4;i++) {
-      if (y + dy > canvas.height- 50*(tetromino.cellArray[i][1])) {
-        console.log(board)
+      if (y + dy > canvas.height- 50*(tetromino.cellArray[i][1]))
+      {
           clearInterval(drop);
           y = Math.round(y/50)*50;
           tetromino.yCoordinate = y;
