@@ -93,6 +93,10 @@ function getRandomInt(min, max) {
 
 $(document).ready(function() {
   $("#start-game").click(function (){
+    // dy = 2;
+    fixedTetrominos = [];
+    fixedCoordinates = [];
+    clearInterval(drop);
     newGame();
     dropRandomTetromino();
   });
@@ -119,22 +123,22 @@ $(document).ready(function() {
       ctx.stroke();
       ctx.closePath();
     }
-    if(rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 10 == 0) {
+    if(rightPressed && x + 50*tetromino.rightSide < canvas.width && counter % 5 == 0) {
         x += 50;
-    } else if(leftPressed && x + 50*(tetromino.leftSide - 1) > 0 && counter % 10 == 0) {
+    } else if(leftPressed && x + 50*(tetromino.leftSide - 1) > 0 && counter % 5 == 0) {
         x -= 50;
       }
     if (downPressed) {
       dy = dy * 4;
     }
-    if (rotatePressed && counter % 12 == 0) {
+    if (rotatePressed && counter % 10 == 0) {
         tetromino.translateBack(tetromino.rotateLeft(tetromino.translate()));
     };
   };
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    dy = 1;
+    dy = 2;
     fixShape();
     drawShape();
     tetromino.xCoordinate = x;
@@ -223,7 +227,7 @@ $(document).ready(function() {
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
   function keyDownHandler(e) {
-      if(e.keyCode == 39) {
+      if (e.keyCode == 39) {
           rightPressed = true;
       }
       else if(e.keyCode == 37) {
