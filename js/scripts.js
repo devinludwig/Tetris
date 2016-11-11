@@ -1,7 +1,6 @@
 var x = 0;
 var y = 0;
 var counter = 0;
-var cells = [];
 var fixedCoordinates = [];
 var fixedTetrominos = [];
 var rightPressed = false;
@@ -74,8 +73,8 @@ Tetromino.prototype.translateBack = function(grid) {
   this.leftSide = Math.min(...xValues);
 };
 
-
 function newGame() {
+  var cells = [];
   for (var i=1; i<21; i ++) {
     var row = []
     for (var j=1; j<11; j ++) {
@@ -93,7 +92,9 @@ function getRandomInt(min, max) {
 
 $(document).ready(function() {
   $("#start-game").click(function (){
-    // dy = 2;
+    y=0;
+    x=0;
+    delete board;
     fixedTetrominos = [];
     fixedCoordinates = [];
     clearInterval(drop);
@@ -101,10 +102,10 @@ $(document).ready(function() {
     dropRandomTetromino();
   });
 
+  var drop = setInterval(draw, 20);
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   var img = document.getElementById("image");
-  var drop = setInterval(draw, 20);
 
   function drawShape() {
     ctx.beginPath();
