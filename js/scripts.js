@@ -149,7 +149,7 @@ $(document).ready(function() {
     ctx.beginPath();
     if (board.cells[0][5].status === true) {
       clearInterval(drop);
-      ctx.drawImage(img,50,200,400,400);
+      ctx.drawImage(img,50,200,400,250);
     }
     if (downPressed) {
       dy = dy * 5;
