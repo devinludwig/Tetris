@@ -56,20 +56,32 @@ Tetromino.prototype.rotateLeft  = function(grid) {
 
 Tetromino.prototype.translateBack = function(grid) {
   var count = 0;
+  var overlapChecker = [[],[],[],[]];
+  var clear = true;
   var xValues = [];
   for (var row=0; row<4; row++) {
     for (var column=0; column<4; column++) {
       if (newGrid[row][column] === 1) {
-        // console.log(row + "," + column);
-        this.cellArray[count][0] = 4 + column;
-        this.cellArray[count][1] = row;
-        xValues.push(this.cellArray[count][0])
+        overlapChecker[count][0] = 4 + column;
+        overlapChecker[count][1] = row;
+        xValues.push(overlapChecker[count][0])
         count ++;
       };
     };
   };
-  this.rightSide = Math.max(...xValues);
-  this.leftSide = Math.min(...xValues);
+  for (var index=0; index<4; index ++) {
+    if (overlapChecker[index][0] + this.xCoordinate - 1 >= 0) {
+      if (board.cells[overlapChecker[index][1] + this.yCoordinate - 1][overlapChecker[index][0] + this.xCoordinate - 1].status === true) {
+      clear = false;
+      }
+    }
+  }
+  if (clear === true) {
+    // this.cellArray[count][0] = 4 + column;
+    this.cellArray = overlapChecker;
+    this.rightSide = Math.max(...xValues);
+    this.leftSide = Math.min(...xValues);
+  };
 };
 
 function checkRightSide() {
@@ -207,7 +219,7 @@ $(document).ready(function() {
         if (board.cells[tetromino.cellArray[i][1] + Math.floor(y/50)][tetromino.cellArray[i][0] + tetromino.xCoordinate -1].status == true) {
 
         for (var index2=0; index2<4; index2++) {
-          console.log(tetromino.cellArray[index2][1] + tetromino.yCoordinate -1)
+          // console.log(tetromino.cellArray[index2][1] + tetromino.yCoordinate -1)
           board.cells[tetromino.cellArray[index2][1] + tetromino.yCoordinate -1 ][tetromino.cellArray[index2][0] + tetromino.xCoordinate -1].status = true;
         }
 
@@ -219,17 +231,8 @@ $(document).ready(function() {
         y = 0;
         clearInterval(drop);
         dropRandomTetromino();
-      }
+        };
       };
-        // console.log(board)
-        // else if (fixedTetrominos.length > 0) {
-        // for (j=0; j<fixedTetrominos.length; j++) {
-        //   for (k=0; k<4; k++) {
-        //  if (tetromino.cellArray[i][1]*50 + tetromino.yCoordinate > fixedTetrominos[j].yCoordinate + (fixedTetrominos[j].cellArray[k][1]-1)*50  && (tetromino.cellArray[i][0]*50 + tetromino.xCoordinate === fixedTetrominos[j].xCoordinate + fixedTetrominos[j].cellArray[k][0]*50))
-        //  y = Math.round(y/50)*50;
-        //  }
-        // }
-      //  }
       }
       y += dy;
     };
@@ -326,3 +329,30 @@ $(document).ready(function() {
       }
    };
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// The old stacking method (using fixedTetrominos)
+// console.log(board)
+// else if (fixedTetrominos.length > 0) {
+// for (j=0; j<fixedTetrominos.length; j++) {
+//   for (k=0; k<4; k++) {
+//  if (tetromino.cellArray[i][1]*50 + tetromino.yCoordinate > fixedTetrominos[j].yCoordinate + (fixedTetrominos[j].cellArray[k][1]-1)*50  && (tetromino.cellArray[i][0]*50 + tetromino.xCoordinate === fixedTetrominos[j].xCoordinate + fixedTetrominos[j].cellArray[k][0]*50))
+//  y = Math.round(y/50)*50;
+//  }
+// }
+//  }
