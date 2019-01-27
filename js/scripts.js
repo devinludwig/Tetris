@@ -1,11 +1,13 @@
 var x = 0;
-var y = 0;
+var y = 0
+var dy;
 var counter = 0;
 var cells = [];
 var rightPressed = false;
 var leftPressed = false;
 var downPressed = false;
 var rotation;
+var totalLines = 0;
 
 function Board (cells) {
   this.cells = cells;
@@ -69,6 +71,8 @@ Tetromino.prototype.translateBack = function(grid) {
 
 
 function newGame() {
+  totalLines = 0;
+  $("#totalLines").text(totalLines);
   var cells = [];
   for (var i=0; i<20; i ++) {
     var row = []
@@ -91,17 +95,25 @@ $(document).ready(function() {
     var img = document.getElementById("image");
     var drop;
     var cellSize;
-    var dy;
 
   $("#start-game").click(function (){
-    fixedTetrominos = [];
-    fixedCoordinates = [];
     y = 0;
     clearInterval(drop);
     newGame();
     dropRandomTetromino();
-    console.log(board);
   });
+
+  function resizeCanvas() {
+      canvas.height = window.innerHeight - window.innerHeight%20;
+      canvas.width = canvas.height/2;
+      cellSize = canvas.width/10;
+      dy = cellSize/70;
+  };
+  // Register an event listener to call the resizeCanvas() function
+  // each time the window is resized.
+  window.addEventListener('resize', resizeCanvas, false);
+  // Draw canvas border for the first time.
+  resizeCanvas(canvas);
 
   function drawShape() {
     ctx.beginPath();
@@ -121,17 +133,13 @@ $(document).ready(function() {
       ctx.fill();
       ctx.stroke();
       ctx.closePath();
-      if (rightPressed && x + cellSize*tetromino.rightSide < canvas.width && counter % 10 == 0) {
-          if (board.cells[Math.floor(yCoordinate/cellSize)][xCoordinate/cellSize + 1].full || (board.cells[Math.ceil(yCoordinate/cellSize)][xCoordinate/cellSize + 1].full && yCoordinate % cellSize > cellSize/20)) {
+      if (rightPressed && x + cellSize*tetromino.rightSide < canvas.width && counter % 20 == 0) {
+          if (board.cells[Math.floor(yCoordinate/cellSize)][xCoordinate/cellSize + 1].full || (yCoordinate/cellSize < 19 && board.cells[Math.ceil(yCoordinate/cellSize)][xCoordinate/cellSize + 1].full && yCoordinate % cellSize > cellSize/5)) {
             rightClear = false;
-            console.log(board.cells[Math.floor(yCoordinate/cellSize)][xCoordinate/cellSize + 1]);
-            console.log(board.cells[Math.ceil(yCoordinate/cellSize)][xCoordinate/cellSize + 1]);
-            console.log(yCoordinate);
-            console.log(cellSize);
-        };
-        if (rightClear && i==3) {x += cellSize};
-      } else if (leftPressed && x + cellSize*(tetromino.leftSide - 1) > 0 && counter % 10 == 0) {
-          if (board.cells[Math.floor(yCoordinate/cellSize)][xCoordinate/cellSize - 1].full || (board.cells[Math.ceil(yCoordinate/cellSize)][xCoordinate/cellSize - 1].full && yCoordinate % cellSize > cellSize/20)) {
+          };
+          if (rightClear && i==3) {x += cellSize};
+      } else if (leftPressed && x + cellSize*(tetromino.leftSide - 1) > 0 && counter % 20 == 0) {
+          if (board.cells[Math.floor(yCoordinate/cellSize)][xCoordinate/cellSize - 1].full || (yCoordinate/cellSize < 19 && board.cells[Math.ceil(yCoordinate/cellSize)][xCoordinate/cellSize - 1].full && yCoordinate % cellSize > cellSize/5)) {
             leftClear = false;
           };
           if (leftClear && i==3) {x -= cellSize};
@@ -149,7 +157,7 @@ $(document).ready(function() {
     for (i=0;i<4;i++) {
         let blockPositionY = tetromino.cellArray[i][1]
         let blockPositionX = tetromino.cellArray[i][0]
-        if (y + dy > canvas.height - cellSize*blockPositionY || (blockPositionY + Math.round(y/cellSize) < 20 && board.cells[blockPositionY + Math.floor(y/cellSize)][blockPositionX - 1 + x/cellSize].full)) {
+        if ((y > canvas.height - cellSize*blockPositionY || (blockPositionY + Math.round(y/cellSize) < 20 && board.cells[blockPositionY + Math.floor(y/cellSize)][blockPositionX - 1 + x/cellSize].full)) && y%cellSize > cellSize/5) {
           clearInterval(drop);
           y = Math.round(y/cellSize)*cellSize;
           for (var index=0; index<4; index++) {
@@ -165,21 +173,6 @@ $(document).ready(function() {
       };
       y += dy;
     };
-
-    function resizeCanvas() {
-        canvas.height = window.innerHeight - window.innerHeight%20;
-        canvas.width = canvas.height/2;
-        cellSize = canvas.width/10;
-        dy = cellSize/70
-        console.log(canvas.height);
-        console.log(canvas.width);
-    };
-    // Register an event listener to call the resizeCanvas() function
-    // each time the window is resized.
-    window.addEventListener('resize', resizeCanvas, false);
-    // Draw canvas border for the first time.
-
-    resizeCanvas(canvas);
 
     function fixShape() {
       lines = 0;
@@ -200,8 +193,15 @@ $(document).ready(function() {
         });
         if (line) {
           board.cells.splice(i,1);
-          board.cells.unshift(Array(10).fill(new Cell));
+          var row = []
+          for (var j=0; j<10; j ++) {
+            var cell = new Cell;
+            row.push(cell);
+          };
+          board.cells.unshift(row);
           lines ++;
+          totalLines ++;
+          $("#totalLines").text(totalLines);
         };
       });
     };
@@ -251,7 +251,7 @@ $(document).ready(function() {
           downPressed = true;
       }
       else if(e.keyCode == 32) {
-          rotation = setInterval(tetromino.translateBack(tetromino.rotateLeft(tetromino.translate())), 100);
+          rotation = setInterval(tetromino.translateBack(tetromino.rotateLeft(tetromino.translate())), 200);
       }
   };
 
